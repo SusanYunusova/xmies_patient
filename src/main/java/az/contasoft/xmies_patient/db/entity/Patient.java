@@ -36,7 +36,7 @@ import java.util.Date;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "idPatient",nullable = false, unique = true)
     private long idPatient;
     private String patientNo;
     private String patientName;

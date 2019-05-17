@@ -35,7 +35,7 @@ public class PatientCrudServiceController {
      *
 
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public  PatientResponse updateDocument(@RequestBody UpdatePatientRequest updatePatientRequest){
         logger.info("xmies_patient->update->request : {}" + updatePatientRequest.toString());
         return patientCrudInternalService.updatePatient(updatePatientRequest);
@@ -47,9 +47,9 @@ public class PatientCrudServiceController {
 
      */
 
-    @DeleteMapping("/delete/{idPatient}/{idPersonal}")
-    public PatientResponse deletePatient(@PathVariable("idPatient") long idPatient,
-                                         @PathVariable("idPersonal") long idPersonal){
-        return patientCrudInternalService.deleteIdPatient(idPatient,idPersonal);
+    @GetMapping("/delete/{idPatient}/{isDelete}")
+    public PatientResponse deletePatient(@PathVariable("idPatient") long idPatient
+                                         ,@PathVariable("isDelete") int isDelete){
+        return patientCrudInternalService.deleteIdPatient(idPatient,isDelete);
     }
 }

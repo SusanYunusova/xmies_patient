@@ -35,7 +35,7 @@ public class PatientCrudInternalService {
             // patient.setIdPatient(savePatientRequest.getIdPatient());
 
             patient.setPatientName(savePatientRequest.getPatientName());
-            patient.setPatientSurname(savePatientRequest.getPatientName());
+            patient.setPatientSurname(savePatientRequest.getPatientSurname());
             patient.setBarcode(savePatientRequest.getBarcode());
             patient.setPatientFatherName(savePatientRequest.getPatientFatherName());
             patient.setPatientIdTypeProperty(savePatientRequest.getPatientIdTypeProperty());
@@ -85,10 +85,11 @@ public class PatientCrudInternalService {
 
         try {
             if (pat != null) {
+                //todo idPatient olmalidirmi?
                 pat.setIdPatient(updatePatientRequest.getIdPatient());
                 pat.setPatientNo(updatePatientRequest.getPatientNo());
                 pat.setPatientName(updatePatientRequest.getPatientName());
-                pat.setPatientSurname(updatePatientRequest.getPatientName());
+                pat.setPatientSurname(updatePatientRequest.getPatientSurname());
                 pat.setBarcode(updatePatientRequest.getBarcode());
                 pat.setPatientFatherName(updatePatientRequest.getPatientFatherName());
                 pat.setPatientIdTypeProperty(updatePatientRequest.getPatientIdTypeProperty());
@@ -114,7 +115,7 @@ public class PatientCrudInternalService {
                 patientResponse.setPatient(pat);
                 logger.info("updatePatient response : {}", updatePatientRequest.toString());
             } else {
-                patientResponse.setServerCode(200);
+                patientResponse.setServerCode(210);
                 patientResponse.setServerMessage("OK");
                 logger.info("updatePatient response : {}", patientResponse.toString());
             }
@@ -131,20 +132,21 @@ public class PatientCrudInternalService {
      *
      * return @patientResponse
      */
-    public PatientResponse deleteIdPatient(long idPatient, long idPersonal) {
+    public PatientResponse deleteIdPatient(long idPatient,int isDelete) {
         PatientResponse patientResponse = new PatientResponse();
         try {
-            Patient pat = repoPatient.findByIdPatient(idPatient);
+            Patient pat = repoPatient.findByIdPatientAndAndIsDelete(idPatient,isDelete);
 
             if (pat == null) {
                 patientResponse.setServerMessage("Patient not found");
                 patientResponse.setServerCode(230);
             } else {
+                pat.setIsDelete(1);
                 pat = repoPatient.save(pat);
                 patientResponse.setServerCode(200);
                 patientResponse.setServerMessage("OK patient is deleted");
                 patientResponse.setPatient(pat);
-                pat.setIsDelete(1);
+
 
             }
         } catch (Exception e) {

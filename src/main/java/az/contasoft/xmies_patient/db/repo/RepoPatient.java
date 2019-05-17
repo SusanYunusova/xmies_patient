@@ -40,13 +40,15 @@ public interface RepoPatient extends CrudRepository<Patient, Long> {
  */
     //todo qalsin axira bu
 
-    List<Patient> findAll();
+       List<Patient> findAll();
 
     Patient findByIdPatient(long idPatient);
 
     List<Patient> findByPatientNameAndPatientSurnameAndPatientFatherNameAndPatientPinCode(String patientName,String patientSurname,String patientFatherName,String patientPinCode);
 
-    List<Patient> findAllByIdPatientOrderByIdPatientDesc(long idPatient);
+    List<Patient> findAllByOrderByIdPatientDesc();
+
+    Patient findByIdPatientAndAndIsDelete(long idPatient,int isDelete);
 
 
 
