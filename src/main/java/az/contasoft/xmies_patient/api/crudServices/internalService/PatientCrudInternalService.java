@@ -132,17 +132,17 @@ public class PatientCrudInternalService {
      *
      * return @patientResponse
      */
-    public PatientResponse deleteIdPatient(long idPatient,int isDelete) {
+    public PatientResponse deleteIdPatient(long idPatient) {
         PatientResponse patientResponse = new PatientResponse();
         try {
-            Patient pat = repoPatient.findByIdPatientAndAndIsDelete(idPatient,isDelete);
+            Patient pat = repoPatient.findByIdPatientAndAndIsDelete(idPatient,1);
 
             if (pat == null) {
                 patientResponse.setServerMessage("Patient not found");
                 patientResponse.setServerCode(230);
             } else {
-                pat.setIsDelete(1);
-                pat = repoPatient.save(pat);
+                pat.setIsDelete(0);
+                repoPatient.save(pat);
                 patientResponse.setServerCode(200);
                 patientResponse.setServerMessage("OK patient is deleted");
                 patientResponse.setPatient(pat);

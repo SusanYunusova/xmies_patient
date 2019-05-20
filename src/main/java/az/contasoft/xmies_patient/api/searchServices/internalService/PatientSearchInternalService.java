@@ -93,7 +93,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
     } else {
         response.setListOfPatient(listOfPatient);
         response.setServerCode(200);
-        response.setServerMessage("fullname");
+        response.setServerMessage("fullName");
 
         logger.info("Error response : {}", response.toString());
 
@@ -114,6 +114,12 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
 
 
     List<Patient> findAllByOrderByIdPatientDesc(long idPatient);
+     */
+
+    /**
+     *
+     *
+     * @return
      */
 
     public ResponseSearchListPatient getAllByOrderByIdPatientDesc( ) {

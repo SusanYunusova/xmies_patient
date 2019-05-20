@@ -34,25 +34,6 @@ public class PatientSearchServicesController {
 
     }
 
-    @GetMapping("/getFullName/{patientName}/{patientSurname}/{patientFatherName}/{patientPinCode}")
-    public ResponseSearchListPatient getFullName(@PathVariable("patientName") String patientName, @PathVariable("patientSurname") String patientSurname,
-                                                 @PathVariable("patientFatherName") String patientFatherName, @PathVariable("patientPinCode") String patientPinCode) {
-
-        logger.info("search -> controller -> All request");
-        return patientSearchInternalService.getFullName(patientName, patientSurname, patientFatherName, patientPinCode);
-    }
-
-    /**
-     * Ad soyad ata adi fin kod veya telefon nomresi daxil edilib bir text olaraq gonderilecek ve bizde autoComplete uchun sechim 10 neticeni qaytaracayiq
-     * @param enteredText
-     * @return list of patients
-     */
-    @PostMapping("/getFullName")
-    public ResponsePatientSearch getPatientFullName(@RequestBody RequestFullTextSearch enteredText) {
-        logger.info("search -> controller -> All request");
-        return patientSearchInternalService.getPatientFullNames(enteredText.getEnteredData());
-    }
-
 
     @GetMapping("/getAllByIdPatientOrderByIdPatientDesc")
     public ResponseSearchListPatient getAllByOrderByIdPatientDesc() {
@@ -62,5 +43,24 @@ public class PatientSearchServicesController {
 
     }
 
+
+    /**
+     * Ad soyad ata adi fin kod veya telefon nomresi daxil edilib bir text olaraq gonderilecek ve bizde autoComplete uchun sechim 10 neticeni qaytaracayiq
+     * @param enteredText
+     * @return list of patients
+     */
+
+//        @GetMapping("/getFullName/{patientName}/{patientSurname}/{patientFatherName}/{patientPinCode}")
+//        public ResponseSearchListPatient getFullName(@PathVariable("patientName") String patientName, @PathVariable("patientSurname") String patientSurname,
+//                                                     @PathVariable("patientFatherName") String patientFatherName, @PathVariable("patientPinCode") String patientPinCode) {
+//
+//            logger.info("search -> controller -> All request");
+//            return patientSearchInternalService.getFullName(patientName, patientSurname, patientFatherName, patientPinCode);
+//        }
+    @PostMapping("/getFullName")
+    public ResponsePatientSearch getPatientFullName(@RequestBody RequestFullTextSearch enteredText) {
+        logger.info("search -> controller -> All request");
+        return patientSearchInternalService.getPatientFullNames(enteredText.getEnteredData());
+    }
 
 }

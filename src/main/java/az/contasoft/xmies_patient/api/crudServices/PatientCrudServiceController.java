@@ -47,9 +47,8 @@ public class PatientCrudServiceController {
 
      */
 
-    @GetMapping("/delete/{idPatient}/{isDelete}")
-    public PatientResponse deletePatient(@PathVariable("idPatient") long idPatient
-                                         ,@PathVariable("isDelete") int isDelete){
-        return patientCrudInternalService.deleteIdPatient(idPatient,isDelete);
+    @GetMapping("/delete/{idPatient}")
+    public PatientResponse deletePatient(@PathVariable("idPatient") long idPatient){
+        return patientCrudInternalService.deleteIdPatient(idPatient);
     }
 }
