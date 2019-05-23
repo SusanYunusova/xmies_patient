@@ -56,13 +56,19 @@ public class PatientCrudInternalService {
             patient.setPatientTypeProperty(savePatientRequest.getPatientTypeProperty());
             patient.setPatientPinCode(savePatientRequest.getPatientPinCode());
 
-
-            patient = repoPatient.save(patient);
-            patientResponse.setServerCode(200);
-            patientResponse.setServerMessage("OK");
-            patientResponse.setPatient(patient);
-            logger.info("savePatient response : {}", savePatientRequest.toString());
-
+            if(patient.getPatientPinCode()!=savePatientRequest.getPatientPinCode()) {
+                patient = repoPatient.save(patient);
+                patientResponse.setServerCode(200);
+                patientResponse.setServerMessage("OK");
+                patientResponse.setPatient(patient);
+                logger.info("savePatient response : {}", savePatientRequest.toString());
+            }else {
+                patient = repoPatient.findByPatientPinCode(savePatientRequest.getPatientPinCode());
+                patientResponse.setServerCode(300);
+                patientResponse.setServerMessage("This patient has already saved!!!");
+                patientResponse.setPatient(patient);
+                logger.info("patient has already saved!!! response : {}", savePatientRequest.toString());
+            }
 
         } catch (Exception e) {
             patientResponse.setServerCode(100);

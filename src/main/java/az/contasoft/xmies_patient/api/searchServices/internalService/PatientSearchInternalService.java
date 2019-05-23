@@ -164,30 +164,41 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
         String[] enteredTextMas = enteredText.split(" ");
 //        System.out.println("mas : "+enteredTextMas[0]+" "+enteredTextMas[1]);
         List<PatientData> list = new ArrayList<>();
-        list.addAll(listOfPatients);
+        ResponsePatientSearch response = new ResponsePatientSearch();
+        try {
+            list.addAll(listOfPatients);
 
-        for(int j = 0; j<enteredTextMas.length; j++) {
-            List<PatientData> newList = new ArrayList<>();
+            for (int j = 0; j < enteredTextMas.length; j++) {
+                List<PatientData> newList = new ArrayList<>();
+                for (PatientData patientData : list) {
+                    if (patientData.getFullData().toLowerCase().contains(enteredTextMas[j].toLowerCase())) {
+                        newList.add(patientData);
+                    }
+                }
+
+                list = newList;
+
+            }
+
+            response = new ResponsePatientSearch(200, "List of patients", new ArrayList<>());
+            logger.info("response : {}", response.toString());
             for (PatientData patientData : list) {
-                if (patientData.getFullData().toLowerCase().contains(enteredTextMas[j].toLowerCase())) {
-                    newList.add(patientData);
+                response.getList().add(patientData);
+                if (response.getList().size() == 10) {
+                    return response;
                 }
             }
-
-            list = newList;
+            logger.info("response : {}", response.toString());
+            return response;
+        } catch (Exception e) {
+            response.setServerCode(100);
+            response.setServerMessage(e + "");
+            logger.info("error getting fullname: {}", e, e);
+            return response;
 
         }
 
 
-        ResponsePatientSearch response = new ResponsePatientSearch(100,"List of patients",new ArrayList<>());
-        for (PatientData patientData : list) {
-            response.getList().add(patientData);
-            if(response.getList().size()==10){
-                return response;
-            }
-        }
-
-        return response;
     }
 
     private void initList(){

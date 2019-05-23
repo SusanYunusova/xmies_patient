@@ -50,6 +50,8 @@ public interface RepoPatient extends CrudRepository<Patient, Long> {
 
     Patient findByIdPatientAndAndIsDelete(long idPatient,int isDelete);
 
+    Patient findByPatientPinCode(String patientPinCode);
+
 
 
 }

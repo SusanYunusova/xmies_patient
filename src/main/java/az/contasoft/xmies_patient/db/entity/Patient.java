@@ -47,6 +47,7 @@ public class Patient {
     private int patientTypeProperty;   //xeste tipi
     private int patientCitizenshipProperty;   //vetendashligi
     private int patientIdTypeProperty;      //kimlik tipi
+    @Column(unique = true)
     private String patientPinCode;   //fin
     private long idPatientBirthPlace;  //doguldugu yer  //TODO idbirthPlace etmeliyik?//id adress for flanshey
     private String patientMotherName;
