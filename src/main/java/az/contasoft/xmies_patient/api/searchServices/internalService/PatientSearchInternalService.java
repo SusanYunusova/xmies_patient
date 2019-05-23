@@ -35,7 +35,7 @@ public class PatientSearchInternalService {
             List<Patient> patientList = repoPatient.findAll();
             if (patientList == null || patientList.isEmpty()) {
                 responseSearchListPatient.setListOfPatient(null);
-                responseSearchListPatient.setServerCode(210);
+                responseSearchListPatient.setServerCode(404);
                 responseSearchListPatient.setServerMessage("Patient not found");
                 logger.info("search Patient: {}", responseSearchListPatient.toString());
 
@@ -48,7 +48,7 @@ public class PatientSearchInternalService {
             return responseSearchListPatient;
 
         } catch (Exception e) {
-            responseSearchListPatient.setServerCode(100);
+            responseSearchListPatient.setServerCode(400);
             responseSearchListPatient.setServerMessage(e + "");
             logger.info("error getting all patient: {}", e, e);
             return responseSearchListPatient;
@@ -63,7 +63,7 @@ public class PatientSearchInternalService {
 
         if (findByIdPatient == null) {
             response.setPatient(null);
-            response.setServerCode(100);
+            response.setServerCode(400);
             response.setServerMessage("IdPatient patient search");
 
             logger.info("searchByIdPatient response : {}", response.toString());
@@ -87,7 +87,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
     if (listOfPatient == null) {
 
         response.setListOfPatient(null);
-        response.setServerCode(100);
+        response.setServerCode(404);
         response.setServerMessage("patientName,patientSurname,patientFatherName,patientPinCode");
         logger.info(" response : {}", response.toString());
     } else {
@@ -101,7 +101,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
     }
     return response;
 }catch (Exception e){
-        response.setServerCode(100);
+        response.setServerCode(400);
         response.setServerMessage(e + "");
         logger.info("error getting all patient: {}", e, e);
         return response;
@@ -131,13 +131,13 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
             if (listOfPatient == null||listOfPatient.isEmpty()) {
 
                 response.setListOfPatient(null);
-                response.setServerCode(100);
-                response.setServerMessage("AllByOrderByIdPatientDesc");
+                response.setServerCode(404);
+                response.setServerMessage("AllByOrderByIdPatientDesc not found");
                 logger.info(" response : {}", response.toString());
             } else {
                 response.setListOfPatient(listOfPatient);
                 response.setServerCode(200);
-                response.setServerMessage("AllByIdPatientOrderByIdPatientDesc");
+                response.setServerMessage("AllByIdPatientOrderByIdPatientDesc found");
 
                 logger.info("Error response : {}", response.toString());
 
@@ -147,7 +147,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
 
 
         } catch (Exception e) {
-            response.setServerCode(100);
+            response.setServerCode(400);
             response.setServerMessage(e + "");
             logger.info("error getting all patient: {}", e, e);
             return response;
@@ -191,7 +191,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
             logger.info("response : {}", response.toString());
             return response;
         } catch (Exception e) {
-            response.setServerCode(100);
+            response.setServerCode(400);
             response.setServerMessage(e + "");
             logger.info("error getting fullname: {}", e, e);
             return response;

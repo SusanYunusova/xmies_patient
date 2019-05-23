@@ -21,17 +21,15 @@ public class PatientCrudInternalService {
 
     /**
      * SavePatient entties
-     *
+     * <p>
      * return @patientResponse
      */
 
     public PatientResponse savePatient(SavePatientRequest savePatientRequest) {
         PatientResponse patientResponse = new PatientResponse();
         try {
+            Patient result = repoPatient.findByPatientPinCode(savePatientRequest.getPatientPinCode());
             Patient patient = new Patient();
-
-
-
             // patient.setIdPatient(savePatientRequest.getIdPatient());
 
             patient.setPatientName(savePatientRequest.getPatientName());
@@ -56,24 +54,24 @@ public class PatientCrudInternalService {
             patient.setPatientTypeProperty(savePatientRequest.getPatientTypeProperty());
             patient.setPatientPinCode(savePatientRequest.getPatientPinCode());
 
-            if(patient.getPatientPinCode()!=savePatientRequest.getPatientPinCode()) {
+            if (result == null) {
                 patient = repoPatient.save(patient);
                 patientResponse.setServerCode(200);
                 patientResponse.setServerMessage("OK");
                 patientResponse.setPatient(patient);
                 logger.info("savePatient response : {}", savePatientRequest.toString());
-            }else {
-                patient = repoPatient.findByPatientPinCode(savePatientRequest.getPatientPinCode());
-                patientResponse.setServerCode(300);
+            } else {
+                patient = result;
+                patientResponse.setServerCode(200);
                 patientResponse.setServerMessage("This patient has already saved!!!");
                 patientResponse.setPatient(patient);
                 logger.info("patient has already saved!!! response : {}", savePatientRequest.toString());
             }
 
         } catch (Exception e) {
-            patientResponse.setServerCode(100);
+            patientResponse.setServerCode(400);
             patientResponse.setServerMessage("error");
-            logger.error("Error save savePatient : {}", e,e);
+            logger.error("Error save savePatient : {}", e, e);
         }
         return patientResponse;
     }
@@ -81,7 +79,7 @@ public class PatientCrudInternalService {
 
     /**
      * UpdatePatient entties
-     *
+     * <p>
      * return @patientResponse
      */
 
@@ -121,31 +119,31 @@ public class PatientCrudInternalService {
                 patientResponse.setPatient(pat);
                 logger.info("updatePatient response : {}", updatePatientRequest.toString());
             } else {
-                patientResponse.setServerCode(210);
-                patientResponse.setServerMessage("OK");
+                patientResponse.setServerCode(404);
+                patientResponse.setServerMessage("not found");
                 logger.info("updatePatient response : {}", patientResponse.toString());
             }
         } catch (Exception e) {
-            patientResponse.setServerCode(100);
+            patientResponse.setServerCode(400);
             patientResponse.setServerMessage("error");
-            logger.error("Error update file text : {}", e,e);
+            logger.error("Error update file text : {}", e, e);
         }
         return patientResponse;
     }
 
     /**
      * Deleting idPatient
-     *
+     * <p>
      * return @patientResponse
      */
     public PatientResponse deleteIdPatient(long idPatient) {
         PatientResponse patientResponse = new PatientResponse();
         try {
-            Patient pat = repoPatient.findByIdPatientAndAndIsDelete(idPatient,1);
+            Patient pat = repoPatient.findByIdPatientAndAndIsDelete(idPatient, 1);
 
             if (pat == null) {
                 patientResponse.setServerMessage("Patient not found");
-                patientResponse.setServerCode(230);
+                patientResponse.setServerCode(404);
             } else {
                 pat.setIsDelete(0);
                 repoPatient.save(pat);
@@ -156,7 +154,7 @@ public class PatientCrudInternalService {
 
             }
         } catch (Exception e) {
-            patientResponse.setServerCode(100);
+            patientResponse.setServerCode(400);
             patientResponse.setServerMessage("Error patient deleting");
             logger.error("Error delete : {}", e, e);
         }
