@@ -1,14 +1,14 @@
 package az.contasoft.xmies_patient.api.searchServices;
 
-import az.contasoft.xmies_patient.api.searchServices.internal.RequestFullTextSearch;
-import az.contasoft.xmies_patient.api.searchServices.internal.ResponsePatientSearch;
-import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchListPatient;
-import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchPatient;
+import az.contasoft.xmies_patient.api.searchServices.internal.*;
 import az.contasoft.xmies_patient.api.searchServices.internalService.PatientSearchInternalService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/searchServices")
@@ -58,7 +58,7 @@ public class PatientSearchServicesController {
 //            return patientSearchInternalService.getFullName(patientName, patientSurname, patientFatherName, patientPinCode);
 //        }
     @PostMapping("/getFullName")
-    public ResponsePatientSearch getPatientFullName(@RequestBody RequestFullTextSearch enteredText) {
+    public ResponseEntity<List<PatientData>> getPatientFullName(@RequestBody RequestFullTextSearch enteredText) {
         logger.info("search -> controller -> All request");
         return patientSearchInternalService.getPatientFullNames(enteredText.getEnteredData());
     }

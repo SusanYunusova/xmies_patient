@@ -1,5 +1,6 @@
 package az.contasoft.xmies_patient.api.searchServices.internalService;
 
+import az.contasoft.xmies_patient.api.internal.StandartResponse;
 import az.contasoft.xmies_patient.api.searchServices.internal.PatientData;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponsePatientSearch;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchListPatient;
@@ -9,6 +10,8 @@ import az.contasoft.xmies_patient.db.repo.RepoPatient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -18,7 +21,7 @@ import java.util.List;
 public class PatientSearchInternalService {
 
 
-    public static List<PatientData> listOfPatients = new ArrayList<>();
+    public List<PatientData> listOfPatients = new ArrayList<>();
 
 
     @Autowired
@@ -159,7 +162,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
 
     }
 
-    public ResponsePatientSearch getPatientFullNames(String enteredText) {
+    public ResponseEntity<List<PatientData>> getPatientFullNames(String enteredText) {
         initList();
         String[] enteredTextMas = enteredText.split(" ");
 //        System.out.println("mas : "+enteredTextMas[0]+" "+enteredTextMas[1]);
@@ -182,19 +185,20 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
 
             response = new ResponsePatientSearch(200, "List of patients", new ArrayList<>());
             logger.info("response : {}", response.toString());
+            List<PatientData>  dataList=new ArrayList<>();
             for (PatientData patientData : list) {
-                response.getList().add(patientData);
-                if (response.getList().size() == 10) {
-                    return response;
+               dataList.add(patientData);
+                if( dataList.size() == 10) {
+                    return new ResponseEntity<>(dataList, HttpStatus.OK);
                 }
             }
             logger.info("response : {}", response.toString());
-            return response;
+            return new ResponseEntity<>(dataList, HttpStatus.OK);
         } catch (Exception e) {
-            response.setServerCode(400);
-            response.setServerMessage(e + "");
+//            response.setServerCode(400);
+//            response.setServerMessage(e + "");
             logger.info("error getting fullname: {}", e, e);
-            return response;
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
@@ -202,7 +206,8 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
     }
 
     private void initList(){
-        if(listOfPatients==null || listOfPatients.size()==0){
+//        if(listOfPatients==null || listOfPatients.size()==0){
+        listOfPatients = new ArrayList<>();
             List<Patient> list = repoPatient.findAll();
             System.out.println("list size : "+list.size());
             list.forEach(patient -> {
@@ -216,8 +221,8 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
                         .concat(" ")
                         .concat(patient.getPatientMobilePhoneNumber());
                 listOfPatients.add(new PatientData(patient.getIdPatient(),data));
-                System.out.println("general list size : "+listOfPatients.size());
+//                System.out.println("general list size : "+listOfPatients.size());
             });
-        }
+//        }
     }
 }
