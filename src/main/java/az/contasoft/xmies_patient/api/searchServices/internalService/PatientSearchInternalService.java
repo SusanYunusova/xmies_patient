@@ -1,6 +1,5 @@
 package az.contasoft.xmies_patient.api.searchServices.internalService;
 
-import az.contasoft.xmies_patient.api.internal.StandartResponse;
 import az.contasoft.xmies_patient.api.searchServices.internal.PatientData;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponsePatientSearch;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchListPatient;
