@@ -36,7 +36,7 @@ public class CashService {
 
     }
 
-
+//Susan Yekkkkasdfghjkl
     public PatientInfo getPatientInfo(Patient patient) {
 
         PatientInfo info = new PatientInfo();
