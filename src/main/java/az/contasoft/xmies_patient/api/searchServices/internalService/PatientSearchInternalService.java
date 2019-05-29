@@ -1,5 +1,7 @@
 package az.contasoft.xmies_patient.api.searchServices.internalService;
 
+import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
+import az.contasoft.xmies_patient.api.infoService.internalService.Service;
 import az.contasoft.xmies_patient.api.searchServices.internal.PatientData;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponsePatientSearch;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchListPatient;
@@ -25,6 +27,10 @@ public class PatientSearchInternalService {
 
     @Autowired
     RepoPatient repoPatient;
+
+    @Autowired
+    Service service;
+
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
 
@@ -207,10 +213,12 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
     private void initList(){
 //        if(listOfPatients==null || listOfPatients.size()==0){
         listOfPatients = new ArrayList<>();
-            List<Patient> list = repoPatient.findAll();
+            List<PatientInfo> list = service.getPatientList();
             System.out.println("list size : "+list.size());
             list.forEach(patient -> {
                 String data = patient.getBarcode()
+                        .concat(" ")
+                        .concat(patient.getPatientPinCode())
                         .concat(" ")
                         .concat(patient.getPatientName())
                         .concat(" ")

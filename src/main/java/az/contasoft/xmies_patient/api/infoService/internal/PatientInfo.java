@@ -3,6 +3,7 @@ package az.contasoft.xmies_patient.api.infoService.internal;
 import java.util.Date;
 
 public class PatientInfo {
+    private long idPatient;
     private String patientNo;
     private String patientName;
     private String patientSurname;
@@ -26,8 +27,9 @@ public class PatientInfo {
     private int isDelete;
     private long idPersonalDeletedBy;
 
-    public PatientInfo(String patientNo, String patientName, String patientSurname, String patientFatherName, Date patientBirthDate, Properties patientGenderProperty, Properties patientTypeProperty, Properties patientCitizenshipProperty, Properties patientIdTypeProperty, String patientPinCode, Address idPatientBirthPlace, String patientMotherName, String patientMotherSurname, Address idPatientCurrentAddress, Address idPatientRegistrationAddress, String barcode, String patientHomePhoneNumber, String patientMobilePhoneNumber, String patientEmail, int isDelete, long idPersonalDeletedBy) {
+    public PatientInfo(long idPatient,String patientNo, String patientName, String patientSurname, String patientFatherName, Date patientBirthDate, Properties patientGenderProperty, Properties patientTypeProperty, Properties patientCitizenshipProperty, Properties patientIdTypeProperty, String patientPinCode, Address idPatientBirthPlace, String patientMotherName, String patientMotherSurname, Address idPatientCurrentAddress, Address idPatientRegistrationAddress, String barcode, String patientHomePhoneNumber, String patientMobilePhoneNumber, String patientEmail, int isDelete, long idPersonalDeletedBy) {
         this.patientNo = patientNo;
+        this.idPatient = idPatient;
         this.patientName = patientName;
         this.patientSurname = patientSurname;
         this.patientFatherName = patientFatherName;
@@ -51,6 +53,14 @@ public class PatientInfo {
     }
 
     public PatientInfo() {
+    }
+
+    public long getIdPatient() {
+        return idPatient;
+    }
+
+    public void setIdPatient(long idPatient) {
+        this.idPatient = idPatient;
     }
 
     public String getPatientNo() {

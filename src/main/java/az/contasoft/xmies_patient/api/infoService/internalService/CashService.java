@@ -6,41 +6,59 @@ import az.contasoft.xmies_patient.api.infoService.internal.Properties;
 import az.contasoft.xmies_patient.api.proxy.AddressProxy;
 import az.contasoft.xmies_patient.api.proxy.PropertiesProxy;
 import az.contasoft.xmies_patient.db.entity.Patient;
+import az.contasoft.xmies_patient.db.repo.RepoPatient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-@Component
+@Service
 public class CashService {
 
 
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     public static Map<Long, PatientInfo> mapOfPatientInfo;
 
 
+
+    private final RepoPatient repoPatient;
     private final AddressProxy addressProxy;
-
-
     private final PropertiesProxy propertiesProxy;
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public CashService(AddressProxy addressProxy, PropertiesProxy propertiesProxy) {
+    public CashService(AddressProxy addressProxy, PropertiesProxy propertiesProxy, RepoPatient repoPatient) {
         this.addressProxy = addressProxy;
         this.propertiesProxy = propertiesProxy;
+        this.repoPatient = repoPatient;
     }
 
-    public ResponseEntity<PatientInfo> getPatientInfo(long idPatient){
-
+    public ResponseEntity<PatientInfo> getPatientInfoByidPatient(long idPatient){
+        PatientInfo patientInfo = getPatientInfo(idPatient);
+        if(patientInfo==null){
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(patientInfo,HttpStatus.OK);
+        }
     }
 
 //Susan Yekkkkasdfghjkl
-    public PatientInfo getPatientInfo(Patient patient) {
+
+    /**
+     * Patient obyektine esasen onun butun melumatlarinin alinmasi.
+     * @param patient
+     * @return
+     */
+    private PatientInfo getPatientInfo(Patient patient) {
 
         PatientInfo info = new PatientInfo();
 
+        info.setIdPatient(patient.getIdPatient());
         info.setBarcode(patient.getBarcode());
         info.setPatientName(patient.getPatientName());
         info.setPatientSurname(patient.getPatientSurname());
@@ -127,12 +145,21 @@ public class CashService {
     }
 
 
+    /**
+     * istenilen vaxt map in yeni Patient siyahisniin cashden silinib tekrar yenilenmesi uchun
+     */
     public void refresh(){
         mapOfPatientInfo = null;
+        mapOfPatientInfo = new HashMap<>();
         initMap();
     }
 
-    public PatientInfo getPatientInfo(long idPatient){
+    /**
+     * idPatient e esasen hazir olan cashda saxlanilan siyahidan yeni map dan PatientInfo nu elde elemek
+     * @param idPatient
+     * @return
+     */
+    private PatientInfo getPatientInfo(long idPatient){
         if(mapOfPatientInfo!=null){
             return mapOfPatientInfo.get(idPatient);
         }else{
@@ -140,5 +167,35 @@ public class CashService {
         }
     }
 
+
+    /**
+     * Map in tekrar yigilmasi
+     */
+    private void initMap(){
+        try{
+            logger.info("{}","trying to init map of patients");
+            List<Patient> listOfPatients = repoPatient.findAllByOrderByIdPatientDesc();
+            for (Patient patient : listOfPatients) {
+                PatientInfo patientInfo = getPatientInfo(patient);
+                mapOfPatientInfo.put(patientInfo.getIdPatient(),patientInfo);
+            }
+        }catch (Exception e){
+            logger.error("Error {} : {}","init map",e,e);
+        }
+    }
+
+
+
+    public List<PatientInfo> getMapAsList(){
+        if(mapOfPatientInfo==null || mapOfPatientInfo.size()==0){
+            refresh();
+        }
+        List<PatientInfo> listOfPatientInfo = new ArrayList<>();
+        for (Long idPatient : mapOfPatientInfo.keySet()) {
+            listOfPatientInfo.add(mapOfPatientInfo.get(idPatient));
+        }
+
+        return listOfPatientInfo;
+    }
 
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RibbonClient(name = "xmies_properties")
 public interface PropertiesProxy {
 
-    @GetMapping("/xmies_properties/getByIdProperties/{idProperties}")
+    @GetMapping("/xmies_properties/searchServices/getByIdProperties/{idProperties}")
     ResponseEntity<Properties> getByIdProperties(@PathVariable("idProperties") long idProperties);
 
 

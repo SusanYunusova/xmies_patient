@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RibbonClient(name = "xmies_address")
 public interface AddressProxy {
 
-    @GetMapping("/xmies_address/getAddressByIDAddress/{idAddress}")
+    @GetMapping("/xmies_address/searchService/getAddress/{idAddress}")
     ResponseEntity<Address> getAddressIdAddress(@PathVariable("idAddress") long idAddress);
 
 }
