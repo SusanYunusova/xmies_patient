@@ -1,5 +1,5 @@
 package az.contasoft.xmies_patient.api.crudServices.internal;
-
+@Deprecated
 public class RequestForFullName {
     private  String patientName;
     private String patientSurname;

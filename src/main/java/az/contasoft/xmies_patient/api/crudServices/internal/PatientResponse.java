@@ -1,7 +1,7 @@
 package az.contasoft.xmies_patient.api.crudServices.internal;
 
 import az.contasoft.xmies_patient.db.entity.Patient;
-
+@Deprecated
 public class PatientResponse {
     private int serverCode;
     private String serverMessage;

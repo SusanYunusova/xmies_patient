@@ -102,6 +102,9 @@ public class CashService {
                 info.setIdPatientBirthPlace(responseAddress.getBody());
             }
         }
+
+
+
 /**
  * propertiden sechilecek melumatlari
  * burdan cekib goturur
