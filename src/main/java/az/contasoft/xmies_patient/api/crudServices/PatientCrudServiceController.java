@@ -50,7 +50,7 @@ public class PatientCrudServiceController {
      * @return
 
      */
-
+//Myellimin keyfi??
     @GetMapping("/delete/{idPatient}")
     public ResponseEntity<Patient> deletePatient(@PathVariable("idPatient") long idPatient){
         return patientCrudInternalService.deleteIdPatient(idPatient);
