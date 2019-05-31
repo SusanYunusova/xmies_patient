@@ -54,6 +54,6 @@ public class Controller {
         logger.info("getting info by idPatient : {}",idPatient);
         return service.getPatientInfoByidPatient(idPatient);
     }
-//Myellimin keyfi??
+
 
 }
