@@ -24,4 +24,8 @@ public class Service {
         return cashService.getMapAsList();
     }
 
+    public ResponseEntity<PatientInfo> addingNewPatient(Patient patient){
+        return cashService.addNewPatientToMap(patient);
+    }
+
 }

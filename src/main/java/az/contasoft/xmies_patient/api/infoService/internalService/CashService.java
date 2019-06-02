@@ -47,7 +47,16 @@ public class CashService {
         }
     }
 
-//Susan Yekkkkasdfghjkl
+    /**
+     * adding new data to map
+     */
+    public ResponseEntity<PatientInfo> addNewPatientToMap(Patient patient){
+        PatientInfo info = getPatientInfo(patient);
+        mapOfPatientInfo.put(info.getIdPatient(),info);
+        return new ResponseEntity<>(info,HttpStatus.OK);
+    }
+
+//Susan Yekkkkasdfghjkl  tebiiki
 
     /**
      * Patient obyektine esasen onun butun melumatlarinin alinmasi.
@@ -143,6 +152,8 @@ public class CashService {
             }
         }
 
+        info.setDetails(info.getPatientDetail());
+
         return info;
 
     }
@@ -166,7 +177,8 @@ public class CashService {
         if(mapOfPatientInfo!=null){
             return mapOfPatientInfo.get(idPatient);
         }else{
-            return null;
+            refresh();
+            return mapOfPatientInfo.get(idPatient);
         }
     }
 
@@ -197,7 +209,6 @@ public class CashService {
         for (Long idPatient : mapOfPatientInfo.keySet()) {
             listOfPatientInfo.add(mapOfPatientInfo.get(idPatient));
         }
-
         return listOfPatientInfo;
     }
 

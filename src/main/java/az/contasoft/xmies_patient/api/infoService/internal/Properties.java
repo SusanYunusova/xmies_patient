@@ -4,6 +4,34 @@ package az.contasoft.xmies_patient.api.infoService.internal;
 public class Properties {
 
 
+    /***
+     *
+     *
+     *       SSSSSSSSSSSSSSS
+     *     SS:::::::::::::::S
+     *    S:::::SSSSSS::::::S
+     *    S:::::S     SSSSSSS
+     *    S:::::S            uuuuuu    uuuuuu  zzzzzzzzzzzzzzzzzyyyyyyy           yyyyyyy
+     *    S:::::S            u::::u    u::::u  z:::::::::::::::z y:::::y         y:::::y
+     *     S::::SSSS         u::::u    u::::u  z::::::::::::::z   y:::::y       y:::::y
+     *      SS::::::SSSSS    u::::u    u::::u  zzzzzzzz::::::z     y:::::y     y:::::y
+     *        SSS::::::::SS  u::::u    u::::u        z::::::z       y:::::y   y:::::y
+     *           SSSSSS::::S u::::u    u::::u       z::::::z         y:::::y y:::::y
+     *                S:::::Su::::u    u::::u      z::::::z           y:::::y:::::y
+     *                S:::::Su:::::uuuu:::::u     z::::::z             y:::::::::y
+     *    SSSSSSS     S:::::Su:::::::::::::::uu  z::::::zzzzzzzz        y:::::::y
+     *    S::::::SSSSSS:::::S u:::::::::::::::u z::::::::::::::z         y:::::y
+     *    S:::::::::::::::SS   uu::::::::uu:::uz:::::::::::::::z        y:::::y
+     *     SSSSSSSSSSSSSSS       uuuuuuuu  uuuuzzzzzzzzzzzzzzzzz       y:::::y
+     *                                                                y:::::y
+     *                                                               y:::::y
+     *                                                              y:::::y
+     *                                                             y:::::y
+     *                                                            yyyyyyy
+     *
+     *
+     */
+
     private long idProperties;
     private  String value;
     private  long parentId;

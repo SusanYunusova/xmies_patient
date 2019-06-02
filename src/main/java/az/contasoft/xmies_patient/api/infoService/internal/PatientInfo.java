@@ -20,6 +20,7 @@ public class PatientInfo {
     private Address idPatientCurrentAddress;  //faktiki adresi
     private Address idPatientRegistrationAddress;  //qeydiyyatd adresi
     private String barcode;
+    private String details;
 
     private String patientHomePhoneNumber; //ev teli
     private String patientMobilePhoneNumber; //mobil teli
@@ -27,7 +28,7 @@ public class PatientInfo {
     private int isDelete;
     private long idPersonalDeletedBy;
 
-    public PatientInfo(long idPatient,String patientNo, String patientName, String patientSurname, String patientFatherName, Date patientBirthDate, Properties patientGenderProperty, Properties patientTypeProperty, Properties patientCitizenshipProperty, Properties patientIdTypeProperty, String patientPinCode, Address idPatientBirthPlace, String patientMotherName, String patientMotherSurname, Address idPatientCurrentAddress, Address idPatientRegistrationAddress, String barcode, String patientHomePhoneNumber, String patientMobilePhoneNumber, String patientEmail, int isDelete, long idPersonalDeletedBy) {
+    public PatientInfo(long idPatient,String patientNo, String patientName, String patientSurname, String patientFatherName, Date patientBirthDate, Properties patientGenderProperty, Properties patientTypeProperty, Properties patientCitizenshipProperty, Properties patientIdTypeProperty, String patientPinCode, Address idPatientBirthPlace, String patientMotherName, String patientMotherSurname, Address idPatientCurrentAddress, Address idPatientRegistrationAddress, String barcode, String patientHomePhoneNumber, String patientMobilePhoneNumber, String patientEmail, int isDelete, long idPersonalDeletedBy, String details) {
         this.patientNo = patientNo;
         this.idPatient = idPatient;
         this.patientName = patientName;
@@ -50,9 +51,19 @@ public class PatientInfo {
         this.patientEmail = patientEmail;
         this.isDelete = isDelete;
         this.idPersonalDeletedBy = idPersonalDeletedBy;
+        this.details = details;
     }
 
     public PatientInfo() {
+    }
+
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
     }
 
     public long getIdPatient() {
@@ -229,5 +240,21 @@ public class PatientInfo {
 
     public void setIdPersonalDeletedBy(long idPersonalDeletedBy) {
         this.idPersonalDeletedBy = idPersonalDeletedBy;
+    }
+
+
+
+    public String getPatientDetail(){
+        return getBarcode()
+                .concat(" ")
+                .concat(getPatientPinCode())
+                .concat(" ")
+                .concat(getPatientName())
+                .concat(" ")
+                .concat(getPatientSurname())
+                .concat(" ")
+                .concat(getPatientFatherName())
+                .concat(" ")
+                .concat(getPatientMobilePhoneNumber());
     }
 }

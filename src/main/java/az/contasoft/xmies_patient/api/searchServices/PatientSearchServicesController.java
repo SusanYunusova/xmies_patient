@@ -1,5 +1,6 @@
 package az.contasoft.xmies_patient.api.searchServices;
 
+import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.api.searchServices.internal.*;
 import az.contasoft.xmies_patient.api.searchServices.internalService.PatientSearchInternalService;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ public class PatientSearchServicesController {
     PatientSearchInternalService patientSearchInternalService;
 
     @GetMapping("/getAll")
-    public ResponseSearchListPatient getAll() {
+    public ResponseEntity<List<PatientInfo>> getAll() {
 
         logger.info("search -> controller -> All request : {}");
         return patientSearchInternalService.getAll();

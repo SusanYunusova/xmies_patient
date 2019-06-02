@@ -2,6 +2,7 @@ package az.contasoft.xmies_patient.api.crudServices;
 import az.contasoft.xmies_patient.api.crudServices.internal.SavePatientRequest;
 import az.contasoft.xmies_patient.api.crudServices.internal.UpdatePatientRequest;
 import az.contasoft.xmies_patient.api.crudServices.internalService.PatientCrudInternalService;
+import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.db.entity.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class PatientCrudServiceController {
 
      */
     @PostMapping("/add")
-    public ResponseEntity<Patient> savePatient(@RequestBody SavePatientRequest savePatientRequest) {
+    public ResponseEntity<PatientInfo> savePatient(@RequestBody SavePatientRequest savePatientRequest) {
         logger.info("xmies_patient->add->request : {}" + savePatientRequest.toString());
         return patientCrudInternalService.savePatient(savePatientRequest);
 

@@ -1,10 +1,9 @@
 package az.contasoft.xmies_patient.api.crudServices.internalService;
 
-import az.contasoft.xmies_patient.api.crudServices.internal.PatientResponse;
 import az.contasoft.xmies_patient.api.crudServices.internal.SavePatientRequest;
 import az.contasoft.xmies_patient.api.crudServices.internal.UpdatePatientRequest;
+import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.api.infoService.internalService.CashService;
-import az.contasoft.xmies_patient.api.infoService.internalService.Service;
 import az.contasoft.xmies_patient.db.entity.Patient;
 import az.contasoft.xmies_patient.db.repo.RepoPatient;
 import org.slf4j.Logger;
@@ -28,9 +27,10 @@ public class PatientCrudInternalService {
      * SavePatient entties
      * <p>
      * return @patientResponse
+     * @return
      */
 
-    public ResponseEntity<Patient> savePatient(SavePatientRequest savePatientRequest) {
+    public ResponseEntity<PatientInfo> savePatient(SavePatientRequest savePatientRequest) {
         //  PatientResponse patientResponse = new PatientResponse();
         try {
             Patient result = repoPatient.findByPatientPinCode(savePatientRequest.getPatientPinCode());
@@ -62,11 +62,11 @@ public class PatientCrudInternalService {
 
                 patient = repoPatient.save(patient);
                 logger.info("{}", "saving patient");
-                cashService.refresh();
-                return new ResponseEntity<>(patient, HttpStatus.OK);
+//                cashService.refresh();
+                return cashService.addNewPatientToMap(patient);
             } else {
                 logger.info("patient has already saved!!! response : {}", savePatientRequest.toString());
-                return new ResponseEntity<>(result, HttpStatus.valueOf("This patient already saved"));
+                return new ResponseEntity<>(cashService.getPatientInfoByidPatient(result.getIdPatient()).getBody(), HttpStatus.ALREADY_REPORTED);
             }
 
         } catch (Exception e) {

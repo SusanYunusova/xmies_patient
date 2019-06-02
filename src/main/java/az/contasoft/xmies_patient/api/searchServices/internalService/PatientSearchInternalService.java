@@ -36,32 +36,13 @@ public class PatientSearchInternalService {
 
 
 
-    public ResponseSearchListPatient getAll() {
-        ResponseSearchListPatient responseSearchListPatient = new ResponseSearchListPatient();
-        logger.info(("search all patient:{})"), responseSearchListPatient.toString());
-        try {
-            List<Patient> patientList = repoPatient.findAll();
-            if (patientList == null || patientList.isEmpty()) {
-                responseSearchListPatient.setListOfPatient(null);
-                responseSearchListPatient.setServerCode(404);
-                responseSearchListPatient.setServerMessage("Patient not found");
-                logger.info("search Patient: {}", responseSearchListPatient.toString());
-
-            } else {
-                responseSearchListPatient.setListOfPatient(patientList);
-                responseSearchListPatient.setServerCode(200);
-                responseSearchListPatient.setServerMessage("OK");
-                logger.info("search Patient: {}", responseSearchListPatient.toString());
-            }
-            return responseSearchListPatient;
-
-        } catch (Exception e) {
-            responseSearchListPatient.setServerCode(400);
-            responseSearchListPatient.setServerMessage(e + "");
-            logger.info("error getting all patient: {}", e, e);
-            return responseSearchListPatient;
+    public ResponseEntity<List<PatientInfo>> getAll() {
+        List<PatientInfo> list = service.getPatientList();
+        if(list == null || list.size()==0){
+            return new ResponseEntity<>(null,HttpStatus.NO_CONTENT);
+        }else{
+            return new ResponseEntity<>(list,HttpStatus.OK);
         }
-
     }
 //     Patient findByIdPatient(long idPatient);
     public ResponseSearchPatient getByIdPatient(long idPatient) {
@@ -216,17 +197,7 @@ public ResponseSearchListPatient getFullName(String patientName, String patientS
             List<PatientInfo> list = service.getPatientList();
             System.out.println("list size : "+list.size());
             list.forEach(patient -> {
-                String data = patient.getBarcode()
-                        .concat(" ")
-                        .concat(patient.getPatientPinCode())
-                        .concat(" ")
-                        .concat(patient.getPatientName())
-                        .concat(" ")
-                        .concat(patient.getPatientSurname())
-                        .concat(" ")
-                        .concat(patient.getPatientFatherName())
-                        .concat(" ")
-                        .concat(patient.getPatientMobilePhoneNumber());
+                String data = patient.getPatientDetail();
                 listOfPatients.add(new PatientData(patient.getIdPatient(),data));
 //                System.out.println("general list size : "+listOfPatients.size());
             });
