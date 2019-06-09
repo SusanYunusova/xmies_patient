@@ -3,6 +3,7 @@ package az.contasoft.xmies_patient.api.searchServices;
 import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.api.searchServices.internal.*;
 import az.contasoft.xmies_patient.api.searchServices.internalService.PatientSearchInternalService;
+import az.contasoft.xmies_patient.db.entity.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class PatientSearchServicesController {
     }
 
     @GetMapping("/getByIdPatient/{idPatient}")
-    public ResponseSearchPatient getByIdPatient(@PathVariable("idPatient") long idPatient) {
+    public ResponseEntity<Patient> getByIdPatient(@PathVariable("idPatient") long idPatient) {
         logger.info("search -> controller -> request : {}", idPatient);
         return patientSearchInternalService.getByIdPatient(idPatient);
 
@@ -37,7 +38,7 @@ public class PatientSearchServicesController {
 
 
     @GetMapping("/getAllByIdPatientOrderByIdPatientDesc")
-    public ResponseSearchListPatient getAllByOrderByIdPatientDesc() {
+    public ResponseEntity<List<Patient>> getAllByOrderByIdPatientDesc() {
         logger.info("search -> controller -> All getAllByOrderByIdPatientDesc");
 
         return patientSearchInternalService.getAllByOrderByIdPatientDesc();

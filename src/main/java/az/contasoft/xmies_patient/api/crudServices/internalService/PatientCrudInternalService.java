@@ -4,6 +4,7 @@ import az.contasoft.xmies_patient.api.crudServices.internal.SavePatientRequest;
 import az.contasoft.xmies_patient.api.crudServices.internal.UpdatePatientRequest;
 import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.api.infoService.internalService.CashService;
+import az.contasoft.xmies_patient.api.util.HazelCastUtility;
 import az.contasoft.xmies_patient.db.entity.Patient;
 import az.contasoft.xmies_patient.db.repo.RepoPatient;
 import org.slf4j.Logger;
@@ -27,6 +28,7 @@ public class PatientCrudInternalService {
      * SavePatient entties
      * <p>
      * return @patientResponse
+     *
      * @return
      */
 
@@ -61,9 +63,11 @@ public class PatientCrudInternalService {
                 patient.setPatientPinCode(savePatientRequest.getPatientPinCode());
 
                 patient = repoPatient.save(patient);
+                HazelCastUtility.addOrUpdatePersonalToHazelCast(patient);
                 logger.info("{}", "saving patient");
 //                cashService.refresh();
-                return cashService.addNewPatientToMap(patient);
+//                return cashService.addNewPatientToMap(patient);
+                return new ResponseEntity<>(HazelCastUtility.getMapOfPatientInfo().get(patient.getIdPatient()),HttpStatus.OK);
             } else {
                 logger.info("patient has already saved!!! response : {}", savePatientRequest.toString());
                 return new ResponseEntity<>(cashService.getPatientInfoByidPatient(result.getIdPatient()).getBody(), HttpStatus.ALREADY_REPORTED);
@@ -115,9 +119,9 @@ public class PatientCrudInternalService {
 
                 pat = repoPatient.save(pat);
 
-
+                HazelCastUtility.addOrUpdatePersonalToHazelCast(pat);
                 logger.info("updatePatient response : {}", updatePatientRequest.toString());
-                cashService.refresh();
+//                cashService.refresh();
                 return new ResponseEntity<>(pat, HttpStatus.OK);
             } else {
 
@@ -148,7 +152,8 @@ public class PatientCrudInternalService {
             } else {
                 pat.setIsDelete(0);
                 repoPatient.save(pat);
-                cashService.refresh();
+                HazelCastUtility.deletePersonalFromHazelCast(idPatient);
+//                cashService.refresh();
                 return new ResponseEntity<>(pat, HttpStatus.OK);
 
 

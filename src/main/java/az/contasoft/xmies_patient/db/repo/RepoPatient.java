@@ -2,6 +2,7 @@ package az.contasoft.xmies_patient.db.repo;
 
 import az.contasoft.xmies_patient.db.entity.Patient;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  *
  * return @repoPatient
  */
-
+@Repository
 public interface RepoPatient extends CrudRepository<Patient, Long> {
 /*
  private long idPatient;

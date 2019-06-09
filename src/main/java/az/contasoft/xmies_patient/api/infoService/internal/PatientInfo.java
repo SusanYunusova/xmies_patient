@@ -242,8 +242,6 @@ public class PatientInfo {
         this.idPersonalDeletedBy = idPersonalDeletedBy;
     }
 
-
-
     public String getPatientDetail(){
         return getBarcode()
                 .concat(" ")

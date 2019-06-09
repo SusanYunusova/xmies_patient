@@ -1,7 +1,7 @@
 package az.contasoft.xmies_patient.api.searchServices.internal;
 
 import az.contasoft.xmies_patient.db.entity.Patient;
-
+@Deprecated
 public class ResponseSearchPatient {
     private  int serverCode;
     private  String serverMessage;
