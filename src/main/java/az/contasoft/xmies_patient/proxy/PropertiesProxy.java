@@ -1,4 +1,4 @@
-package az.contasoft.xmies_patient.api.proxy;
+package az.contasoft.xmies_patient.proxy;
 
 
 import az.contasoft.xmies_patient.api.infoService.internal.Properties;

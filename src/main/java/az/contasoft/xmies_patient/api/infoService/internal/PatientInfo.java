@@ -1,8 +1,9 @@
 package az.contasoft.xmies_patient.api.infoService.internal;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class PatientInfo {
+public class PatientInfo implements Serializable {
     private long idPatient;
     private String patientNo;
     private String patientName;

@@ -3,9 +3,9 @@ package az.contasoft.xmies_patient.api.infoService.internalService;
 import az.contasoft.xmies_patient.api.infoService.internal.Address;
 import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.api.infoService.internal.Properties;
-import az.contasoft.xmies_patient.api.proxy.AddressProxy;
-import az.contasoft.xmies_patient.api.proxy.PropertiesProxy;
-import az.contasoft.xmies_patient.api.util.HazelCastUtility;
+import az.contasoft.xmies_patient.proxy.AddressProxy;
+import az.contasoft.xmies_patient.proxy.PropertiesProxy;
+import az.contasoft.xmies_patient.util.HazelCastUtility;
 import az.contasoft.xmies_patient.db.entity.Patient;
 import az.contasoft.xmies_patient.db.repo.RepoPatient;
 import com.hazelcast.core.IMap;
@@ -16,9 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CashService {
@@ -260,21 +258,32 @@ public class CashService {
 //    }
     public IMap<Long, Patient> startCaching() {
         IMap<Long, Patient> mapOfPatient = HazelCastUtility.getMapOfPatient();
-        if (mapOfPatient == null || mapOfPatient.isEmpty()) {
+        mapOfPatientInfo = HazelCastUtility.getMapOfPatientInfo();
+        if (mapOfPatient == null || mapOfPatient.isEmpty() || mapOfPatientInfo==null || mapOfPatientInfo.isEmpty()) {
             List<Patient> list = repoPatient.findAllByOrderByIdPatientDesc();
             for (Patient patient : list) {
-                HazelCastUtility.addOrUpdatePersonalToHazelCast(patient);
-                HazelCastUtility.addOrUpdatePatientInfoToHazelCast(getPatientInfo(patient));
+                addPatientAndCreatPatientInfoAndAddToHazelCast(patient);
             }
         }
         return mapOfPatient;
     }
 
+    public PatientInfo addPatientAndCreatPatientInfoAndAddToHazelCast(Patient patient){
+        logger.info("{}","**************************************************************");
+        logger.info("{}","CashService -> startCaching -> patient : "+patient.toString());
+        HazelCastUtility.addOrUpdatePatientToHazelCast(patient);
+        PatientInfo patientInfo = getPatientInfo(patient);
+        HazelCastUtility.addOrUpdatePatientInfoToHazelCast(patientInfo);
+        return patientInfo;
+    }
 
     public List<PatientInfo> getMapAsList() {
+        logger.info("{}","CashService -> get map as list -> getting map from hazelCast");
         mapOfPatientInfo = HazelCastUtility.getMapOfPatientInfo();
+        logger.info("{}","map size : "+mapOfPatientInfo.size());
         if (mapOfPatientInfo == null || mapOfPatientInfo.isEmpty()) {
 //            refresh();
+            logger.info("{}","Size is 0 trying to start caching...");
             startCaching();
         }
         List<PatientInfo> listOfPatientInfo = new ArrayList<>();

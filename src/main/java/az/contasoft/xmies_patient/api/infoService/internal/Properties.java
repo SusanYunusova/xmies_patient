@@ -1,7 +1,9 @@
 package az.contasoft.xmies_patient.api.infoService.internal;
 
 
-public class Properties {
+import java.io.Serializable;
+
+public class Properties implements Serializable {
 
 
     /***

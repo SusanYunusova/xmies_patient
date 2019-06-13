@@ -1,4 +1,4 @@
-package az.contasoft.xmies_patient.api.util;
+package az.contasoft.xmies_patient.util;
 
 import az.contasoft.xmies_patient.api.infoService.internal.Address;
 import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
@@ -21,8 +21,8 @@ public class HazelCastUtility {
         return hazelcastInstance;
     }
 
-    public static void addOrUpdatePersonalToHazelCast(Patient patient) {
-        logger.info("{}", "Trying to add or update personal to hazelcast.. " + patient.toString());
+    public static void addOrUpdatePatientToHazelCast(Patient patient) {
+        logger.info("{}", "Trying to add or update patient to hazelcast.. " + patient.toString());
         IMap<Long, Patient> mapOfPatient = getHazelcastInstance().getMap("patient");
         mapOfPatient.put(patient.getIdPatient(), patient);
     }
@@ -35,8 +35,8 @@ public class HazelCastUtility {
 
 
 
-    public static void deletePersonalFromHazelCast(Long id) {
-        logger.info("{}", "Trying to remove personal from hazelCast");
+    public static void deletePatientFromHazelCast(Long id) {
+        logger.info("{}", "Trying to remove patient from hazelCast");
         IMap<Long, Patient> mapOfPatient = getHazelcastInstance().getMap("patient");
         mapOfPatient.remove(id);
     }

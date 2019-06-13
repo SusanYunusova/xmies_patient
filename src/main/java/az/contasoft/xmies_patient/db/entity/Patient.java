@@ -1,6 +1,7 @@
 package az.contasoft.xmies_patient.db.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 /*      idXeste
         no
@@ -33,7 +34,7 @@ import java.util.Date;
 @Entity
 @Table(name = "patient")
 
-public class Patient {
+public class Patient implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idPatient",nullable = false, unique = true)

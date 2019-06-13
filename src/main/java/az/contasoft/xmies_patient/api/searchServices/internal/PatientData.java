@@ -1,6 +1,8 @@
 package az.contasoft.xmies_patient.api.searchServices.internal;
 
-public class PatientData {
+import java.io.Serializable;
+
+public class PatientData  implements Serializable {
     private long idPatient;
     private String fullData;
 

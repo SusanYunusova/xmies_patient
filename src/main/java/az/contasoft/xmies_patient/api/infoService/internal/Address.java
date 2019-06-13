@@ -1,9 +1,10 @@
 package az.contasoft.xmies_patient.api.infoService.internal;
 
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Address {
+public class Address implements Serializable {
 
     private long idAddress;
     private String title;

@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * Created by heisenberg
  */
+@Deprecated
 public class ResponsePatientSearch {
     private int serverCode;
     private String serverMessage;

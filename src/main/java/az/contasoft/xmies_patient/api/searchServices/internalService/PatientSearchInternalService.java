@@ -4,9 +4,7 @@ import az.contasoft.xmies_patient.api.infoService.internal.PatientInfo;
 import az.contasoft.xmies_patient.api.infoService.internalService.Service;
 import az.contasoft.xmies_patient.api.searchServices.internal.PatientData;
 import az.contasoft.xmies_patient.api.searchServices.internal.ResponsePatientSearch;
-import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchListPatient;
-import az.contasoft.xmies_patient.api.searchServices.internal.ResponseSearchPatient;
-import az.contasoft.xmies_patient.api.util.HazelCastUtility;
+import az.contasoft.xmies_patient.util.HazelCastUtility;
 import az.contasoft.xmies_patient.db.entity.Patient;
 import az.contasoft.xmies_patient.db.repo.RepoPatient;
 import com.hazelcast.core.IMap;
@@ -66,7 +64,7 @@ public class PatientSearchInternalService {
                 return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
             } else {
                 logger.info("Error searchByIdPatient response : {}", "founddd");
-                HazelCastUtility.addOrUpdatePersonalToHazelCast(patient);
+                HazelCastUtility.addOrUpdatePatientToHazelCast(patient);
                 return new ResponseEntity<>(patient, HttpStatus.OK);
             }
 
@@ -203,10 +201,10 @@ public class PatientSearchInternalService {
     public IMap<Long, Patient> startCaching() {
         IMap<Long, Patient> mapOfPatient = HazelCastUtility.getMapOfPatient();
         if (mapOfPatient == null || mapOfPatient.isEmpty()) {
-            List<Patient> list = repoPatient.findAll();
+            List<Patient> list = repoPatient.findAllByOrderByIdPatientDesc();
             for (Patient patient : list) {
 
-                HazelCastUtility.addOrUpdatePersonalToHazelCast(patient);
+                HazelCastUtility.addOrUpdatePatientToHazelCast(patient);
             }
         }
         return mapOfPatient;
